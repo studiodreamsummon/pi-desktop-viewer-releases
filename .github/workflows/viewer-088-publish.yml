@@ -1,0 +1,38 @@
+name: Publish verified Viewer 0.8.8
+on:
+  push:
+    branches: [viewer-088-publish]
+    paths:
+      - '.github/workflows/viewer-088-publish.yml'
+      - 'publication/viewer-0.8.8/**'
+permissions: {}
+concurrency:
+  group: viewer-088-final-publication
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.repository == 'studiodreamsummon/pi-desktop-viewer-releases'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Fetch exact public commit anonymously
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$GITHUB_SHA" =~ ^[a-f0-9]{40}$ ]]
+          test "$GITHUB_REF" = refs/heads/viewer-088-publish
+          git init --quiet source
+          git -C source -c credential.helper= remote add origin https://github.com/studiodreamsummon/pi-desktop-viewer-releases.git
+          git -C source -c credential.helper= -c core.autocrlf=false fetch --quiet --depth=1 origin "$GITHUB_SHA"
+          git -C source -c core.autocrlf=false checkout --quiet --detach FETCH_HEAD
+          test "$(git -C source rev-parse HEAD)" = "$GITHUB_SHA"
+          node -e 'if(Number(process.versions.node.split(".")[0])<20)process.exit(1)'
+      - name: Validate, draft, upload, read back, then publish
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          node source/publication/viewer-0.8.8/publish_final.mjs source/publication/viewer-0.8.8/approved.json publication-result
