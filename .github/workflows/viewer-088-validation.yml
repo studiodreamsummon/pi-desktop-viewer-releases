@@ -1,0 +1,47 @@
+name: Validate frozen Pi Desktop Viewer 0.8.8
+on:
+  push:
+    branches: [viewer-088-validation]
+    paths:
+      - '.github/workflows/viewer-088-validation.yml'
+      - 'validation/viewer-0.8.8/**'
+permissions: {}
+concurrency:
+  group: viewer-088-daemonless-validation
+  cancel-in-progress: false
+jobs:
+  validate:
+    if: github.repository == 'studiodreamsummon/pi-desktop-viewer-releases'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - name: Fetch only the triggering public commit
+        env:
+          SOURCE_REPOSITORY: ${{ github.repository }}
+          SOURCE_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$SOURCE_REPOSITORY" = 'studiodreamsummon/pi-desktop-viewer-releases'
+          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          git init candidate-source
+          git -C candidate-source remote add origin "https://github.com/$SOURCE_REPOSITORY.git"
+          git -C candidate-source fetch --depth=1 origin "$SOURCE_SHA"
+          git -C candidate-source checkout --detach FETCH_HEAD
+          test "$(git -C candidate-source rev-parse HEAD)" = "$SOURCE_SHA"
+      - name: Rebuild clean canonical image and run isolated actual-server API tests
+        working-directory: candidate-source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 validation/viewer-0.8.8/clean_build.py --data validation/viewer-0.8.8 --out runner-work
+      - name: Publish validation-only prerelease assets
+        working-directory: candidate-source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          node validation/viewer-0.8.8/publish_release.mjs validation/viewer-0.8.8 runner-work/release
