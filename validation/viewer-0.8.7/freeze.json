@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "version": "0.8.7",
-  "freezeId": "beb7cd8bcc6cca5e",
+  "freezeId": "36cb250d97879479",
   "repository": "docker.io/studiodreamsummon/pi-desktop-viewer",
   "baseDigest": "sha256:e798903bec4049ce85c452bad31d55fa32297b56dc631b684ef95c0858ed28ab",
-  "validationTag": "0.8.7-validation-beb7cd8bcc6cca5e",
+  "validationTag": "0.8.7-validation-36cb250d97879479",
   "finalTag": "0.8.7",
-  "releaseTag": "validation-v0.8.7-beb7cd8bcc6cca5e",
+  "releaseTag": "validation-v0.8.7-36cb250d97879479",
   "branch": "viewer-087-validation",
   "contextHashes": {
     "desktop-viewer/package.json": "d441b26568a692b0d9571e51d9d647a5876ac4b3e3a53737285092d35df8be3b",
@@ -33,8 +33,8 @@
   "dockerfileSha256": "2cdf9ef740fb475cd7ea32414274e5968e53e1b53faa5676c91aeceee6d8a59f",
   "fixtureSha256": "ca4064b3c7bea80b06ab3f5ba562c32dd13ff91738abf274424fb4089a9b76bb",
   "ciHashes": {
-    "clean_build.py": "7ada27f7a1d8947f4c6a9bd685593811ca257ed94b2002dfc1a892bb3c9a097d",
-    "oci_archive.py": "b186f8115309e607ca711bdce0f4514b1a1459abb6283359269a6244b3c13d3c",
+    "clean_build.py": "08995869afe1be07dd019360cd0a902210098dbf44e3e5a4f2c3e0144440b94f",
+    "oci_archive.py": "0c4caecb8f7313b3f6bc796ff8160a819220bb03984657b83c5b00b3720f94db",
     "publish_release.mjs": "d2d43185d1638072832abbf44d52d3e1483832662a78a11ef5ffedeecf59f0cd"
   },
   "workflowSha256": "4850699c96a4422f4bc4aeb5d3d6c40fd7fb9116ff56413a08b797768cb87659",

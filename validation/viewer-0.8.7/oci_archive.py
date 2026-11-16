@@ -7,6 +7,7 @@ LIMIT = 2 * 1024 * 1024 * 1024
 OCI_MANIFEST = 'application/vnd.oci.image.manifest.v1+json'
 OCI_CONFIG = 'application/vnd.oci.image.config.v1+json'
 OCI_LAYER = 'application/vnd.oci.image.layer.v1.tar+gzip'
+OCI_PLAIN_LAYER = 'application/vnd.oci.image.layer.v1.tar'
 
 def require(ok, code):
     if not ok:
@@ -22,11 +23,33 @@ def hash_file(path):
             h.update(block)
     return h.hexdigest()
 
+def safe_name(name, directory=False):
+    require(isinstance(name, str) and name and not name.startswith('/') and '\\' not in name and ':' not in name
+            and not any(ord(c) < 32 or ord(c) == 127 for c in name), 'ARCHIVE_PATH')
+    normalized = name.removesuffix('/') if directory else name
+    require(str(PurePosixPath(normalized)) == normalized and '..' not in PurePosixPath(normalized).parts,
+            'ARCHIVE_PATH')
+    return normalized
+
 def member(archive, name):
-    require(not name.startswith('/') and '\\' not in name and '..' not in PurePosixPath(name).parts, 'ARCHIVE_PATH')
+    safe_name(name)
     m = archive.getmember(name)
     require(m.isfile() and not m.issym() and not m.islnk(), 'ARCHIVE_REGULAR_REQUIRED')
     return m
+
+def archive_entries(archive):
+    members = archive.getmembers()
+    names = [m.name for m in members]
+    require(len(names) == len(set(names)), 'DUPLICATE_ARCHIVE_ENTRY')
+    normalized = []
+    for m in members:
+        name = safe_name(m.name, directory=m.isdir()); normalized.append(name)
+        if m.isdir():
+            require(name in ('blobs', 'blobs/sha256'), 'ARCHIVE_DIRECTORY_INVALID')
+        else:
+            require(m.isfile() and not m.issym() and not m.islnk(), 'ARCHIVE_REGULAR_REQUIRED')
+    require(len(normalized) == len(set(normalized)), 'DUPLICATE_ARCHIVE_ENTRY')
+    return members
 
 def data(archive, name, maximum=2 * 1024 * 1024):
     m = member(archive, name); require(m.size <= maximum, 'ARCHIVE_METADATA_TOO_LARGE')
@@ -48,9 +71,7 @@ def descriptor(archive, d):
 def verify_archive(path):
     path = Path(path); require(path.stat().st_size < LIMIT, 'OCI_RELEASE_ASSET_TOO_LARGE')
     with tarfile.open(path, 'r:*') as archive:
-        names = archive.getnames(); require(len(names) == len(set(names)), 'DUPLICATE_ARCHIVE_ENTRY')
-        for name in names:
-            member(archive, name)
+        archive_entries(archive)
         require(json.loads(data(archive, 'oci-layout')) == {'imageLayoutVersion': '1.0.0'}, 'OCI_LAYOUT')
         index = json.loads(data(archive, 'index.json'))
         require(index.get('schemaVersion') == 2 and len(index.get('manifests', [])) == 1, 'SINGLE_IMAGE_REQUIRED')
@@ -63,14 +84,43 @@ def verify_archive(path):
         diff_ids = config.get('rootfs', {}).get('diff_ids', [])
         require(len(diff_ids) == len(manifest.get('layers', [])), 'ROOTFS_LAYER_COUNT')
         for d, expected_diff in zip(manifest['layers'], diff_ids):
-            require(d.get('mediaType') == OCI_LAYER, 'GZIP_LAYER_REQUIRED')
+            require(d.get('mediaType') in (OCI_LAYER, OCI_PLAIN_LAYER), 'OCI_LAYER_TYPE_INVALID')
             name = descriptor(archive, d); h = sha256()
-            with archive.extractfile(name) as compressed, gzip.GzipFile(fileobj=compressed) as layer:
-                for block in iter(lambda: layer.read(1024 * 1024), b''):
-                    h.update(block)
+            with archive.extractfile(name) as raw:
+                if d['mediaType'] == OCI_LAYER:
+                    with gzip.GzipFile(fileobj=raw) as layer:
+                        for block in iter(lambda: layer.read(1024 * 1024), b''):
+                            h.update(block)
+                else:
+                    for block in iter(lambda: raw.read(1024 * 1024), b''):
+                        h.update(block)
             require('sha256:' + h.hexdigest() == expected_diff, 'ROOTFS_DIFF_ID')
         return {'manifestDigest': top['digest'], 'configDigest': manifest['config']['digest'],
                 'layers': len(diff_ids), 'bytes': path.stat().st_size, 'archiveSha256': hash_file(path)}
+
+def archive_summary(path):
+    """Bounded public shape only: no layer/config content or link targets."""
+    with tarfile.open(path, 'r:*') as archive:
+        members = archive.getmembers(); sample = []
+        for m in members[:12]:
+            try:
+                name = safe_name(m.name, directory=m.isdir())
+                public = name in ('blobs', 'blobs/sha256', 'oci-layout', 'index.json', 'manifest.json', 'repositories') or (
+                    name.startswith('blobs/sha256/') and len(name.removeprefix('blobs/sha256/')) == 64 and
+                    all(c in '0123456789abcdef' for c in name.removeprefix('blobs/sha256/')))
+            except ValueError:
+                name, public = '', False
+            sample.append({'name': name if public else '<unlisted-entry>', 'type': 'directory' if m.isdir() else 'file' if m.isfile() else 'unsupported'})
+        media = []
+        if 'index.json' in archive.getnames():
+            try:
+                for d in json.loads(data(archive, 'index.json')).get('manifests', [])[:8]:
+                    value = d.get('mediaType')
+                    media.append(value if value in (OCI_MANIFEST, 'application/vnd.oci.image.index.v1+json',
+                        'application/vnd.docker.distribution.manifest.v2+json', 'application/vnd.docker.distribution.manifest.list.v2+json') else '<unsupported>')
+            except (ValueError, KeyError, json.JSONDecodeError):
+                media = ['<unreadable-index>']
+        return {'entries': len(members), 'sample': sample, 'indexMediaTypes': media}
 
 def convert(source, destination):
     source, destination = Path(source), Path(destination)

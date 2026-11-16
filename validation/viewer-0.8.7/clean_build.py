@@ -2,7 +2,7 @@
 from pathlib import Path, PurePosixPath
 from hashlib import sha256
 import argparse, json, os, re, shutil, subprocess
-from oci_archive import convert, hash_file, LIMIT
+from oci_archive import convert, hash_file, archive_summary, LIMIT
 
 def require(ok, code):
     if not ok:
@@ -69,6 +69,7 @@ def build(args):
     release = out / 'release'; release.mkdir()
     docker_save = out / 'docker-save.tar'
     run(['docker', 'image', 'save', '--output', str(docker_save), tag], timeout=180)
+    print(json.dumps({'dockerSaveArchive': archive_summary(docker_save)}), flush=True)
     image_record = convert(docker_save, release / 'docker-image.oci.tar')
     require(image_record['configDigest'] == config['Id'], 'EXPORTED_IMAGE_DIFFERS_FROM_TESTED_IMAGE')
     for name in ('PiDesktopViewer.exe', 'PiDesktopViewer.zip'):

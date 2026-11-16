@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "freezeId": "beb7cd8bcc6cca5e",
+  "freezeId": "36cb250d97879479",
   "repository": "docker.io/studiodreamsummon/pi-desktop-viewer",
-  "validationTag": "0.8.7-validation-beb7cd8bcc6cca5e",
-  "digest": "sha256:94c3912006cdebe9969dc221001ffb556669fc681321ca8d6593f7e889a23ae4"
+  "validationTag": "0.8.7-validation-36cb250d97879479",
+  "digest": "sha256:592c2661b2e1983ec1cee14083ec9c49aa705f04a0f1f77b7fb868deeae7026d"
 }
