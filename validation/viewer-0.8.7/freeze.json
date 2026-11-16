@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "version": "0.8.7",
+  "freezeId": "beb7cd8bcc6cca5e",
+  "repository": "docker.io/studiodreamsummon/pi-desktop-viewer",
+  "baseDigest": "sha256:e798903bec4049ce85c452bad31d55fa32297b56dc631b684ef95c0858ed28ab",
+  "validationTag": "0.8.7-validation-beb7cd8bcc6cca5e",
+  "finalTag": "0.8.7",
+  "releaseTag": "validation-v0.8.7-beb7cd8bcc6cca5e",
+  "branch": "viewer-087-validation",
+  "contextHashes": {
+    "desktop-viewer/package.json": "d441b26568a692b0d9571e51d9d647a5876ac4b3e3a53737285092d35df8be3b",
+    "desktop-viewer/server.mjs": "4fe26475c9da4aa09793b0333ae2ebc2562dd7df9da0b3ee27053810971cfb60",
+    "desktop-viewer/protocol.mjs": "198e3e57dba4b76789767051db695d529d76d371d98d1afd73143bdbdf333f5f",
+    "desktop-viewer/access-protocol.mjs": "f31184dcf45dac980ae0faa83039c624cabc6a040ad98745f453d693f851e031",
+    "desktop-viewer/access-network.mjs": "737f8be292749e283a806e2d16d33db2587e2bcecc104ba3d763e821c39bfa74",
+    "desktop-viewer/access-clock.mjs": "e24b9f2fa3a9015f074f85cb1abc57e75c218eb3a74936ff405d63dd3ff2325a",
+    "desktop-viewer/access-trust.json": "2d19b5bb5ea031a2bbe102c055e96021ed55d7d7dc67386aac8af09dd9c53865",
+    "desktop-viewer/lib/access-gate.mjs": "df21c5c4c261a91bdde41fdbec23119b9a9e6ecac9853fce7ee695887549266a",
+    "desktop-viewer/lib/security.mjs": "82923cea4acee93526c75c66718833b444a281bb11a9fec8cbc69f4ee2495279",
+    "desktop-viewer/lib/store.mjs": "22cca2187c2c4f8124d89820116b2ef5bfbe5fe286e21ed0e1fa7525822651c2",
+    "desktop-viewer/public/index.html": "f098dcc9a65db4f1583d1af41ede10b533a24d3084290019c1e9b6d0a5ed0658",
+    "desktop-viewer/public/bootstrap.js": "9291ddcac6ac8a7c08399015bb56e1b30d878037df2fa53ef489f7fb7014fff0",
+    "desktop-viewer/public/local.js": "0f0b41f115331007353fbb0180874c95a97287e34a016c63d7ceec816cb73ca5",
+    "desktop-viewer/public/web-i18n.mjs": "19b9d0629b5ce7772dd35e3fc05dd08d7ee737b803d413c6b4c2bf1109633b9c",
+    "desktop-viewer/public/local.css": "9c7e8f4292e7f7a51771ddb83506040f5e4dc440496a87daef0f32baad0aedbf",
+    "desktop-viewer/public/icon.svg": "4fb1a2de55807ae0019f158defd47eeb1168d506502428204ea48d587b47400c",
+    "app/lib/mirror-client.mjs": "c9cb1b57316c1fa7e25863dccd5bca718aceadd8ea2eda3b8a93afdd89b90783",
+    "app/lib/mirror-access.mjs": "703c1621c053e951974ada0b7ddf3975e7b4f2ce042e28e536401838f9569bd9",
+    "desktop-viewer/dist/PiDesktopViewer.exe": "5f377526ee60cce761aa3660d403a8145c25be4cf6e5c71f206eff74a79f20c4",
+    "desktop-viewer/dist/PiDesktopViewer.zip": "12211cc8aa4647eab0e0b6f2e9d90a833ebaf21ce56425764a0fee3b399eca04"
+  },
+  "dockerfileSha256": "2cdf9ef740fb475cd7ea32414274e5968e53e1b53faa5676c91aeceee6d8a59f",
+  "fixtureSha256": "ca4064b3c7bea80b06ab3f5ba562c32dd13ff91738abf274424fb4089a9b76bb",
+  "ciHashes": {
+    "clean_build.py": "7ada27f7a1d8947f4c6a9bd685593811ca257ed94b2002dfc1a892bb3c9a097d",
+    "oci_archive.py": "b186f8115309e607ca711bdce0f4514b1a1459abb6283359269a6244b3c13d3c",
+    "publish_release.mjs": "d2d43185d1638072832abbf44d52d3e1483832662a78a11ef5ffedeecf59f0cd"
+  },
+  "workflowSha256": "4850699c96a4422f4bc4aeb5d3d6c40fd7fb9116ff56413a08b797768cb87659",
+  "patchPaths": [
+    "desktop-viewer/access-protocol.mjs",
+    "desktop-viewer/lib/access-gate.mjs",
+    "desktop-viewer/package.json",
+    "desktop-viewer/dist/PiDesktopViewer.exe",
+    "desktop-viewer/dist/PiDesktopViewer.zip"
+  ],
+  "patchTarSha256": "883895f6e7188e8003aa4bc84c0fe53fea079d33aacce4ef7d20a40193596766",
+  "parentBuildEvidenceSha256": "62235586a6ae8668d6adf43aef19e6090f239e46da7eb262d3a2ac3a8f471832",
+  "artifactSha256": {
+    "PiDesktopViewer.exe": "5f377526ee60cce761aa3660d403a8145c25be4cf6e5c71f206eff74a79f20c4",
+    "PiDesktopViewer.zip": "12211cc8aa4647eab0e0b6f2e9d90a833ebaf21ce56425764a0fee3b399eca04"
+  }
+}
