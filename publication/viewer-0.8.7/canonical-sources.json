@@ -1,0 +1,14 @@
+{
+  "verify/desktop-viewer/bridge/release.mjs": {
+    "origin": "desktop-viewer/bridge/release.mjs",
+    "sha256": "a5ef88e8b1f8cd60c62e7a3eadad33c7d21cbe7deb77a016811e306002504df8"
+  },
+  "verify/desktop-viewer/bridge/release-trust.json": {
+    "origin": "desktop-viewer/bridge/release-trust.json",
+    "sha256": "3ea17fb017c0c0a54dc644431be64fa8291aff6717b38a0dd3ee877625f3500c"
+  },
+  "verify/desktop-viewer/protocol.mjs": {
+    "origin": "desktop-viewer/protocol.mjs",
+    "sha256": "198e3e57dba4b76789767051db695d529d76d371d98d1afd73143bdbdf333f5f"
+  }
+}

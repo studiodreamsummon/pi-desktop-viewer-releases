@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "version": "0.8.7",
+  "repository": "studiodreamsummon/pi-desktop-viewer-releases",
+  "branch": "viewer-087-publish",
+  "expectedLatest": "v0.8.6",
+  "source": {
+    "commit": "cff6166e3cbb1ece34e44abaa4f1fd7542e6b256",
+    "tag": "validation-v0.8.7-36cb250d97879479",
+    "freezeId": "36cb250d97879479",
+    "verification": {
+      "sha256": "51576ea6a0d9b1a1d422194d4e8b5c80d841552d0ca6085f88f3215ac8d480aa",
+      "bytes": 3472
+    }
+  },
+  "assets": {
+    "PiDesktopViewer.exe": {
+      "sha256": "5f377526ee60cce761aa3660d403a8145c25be4cf6e5c71f206eff74a79f20c4",
+      "bytes": 35579392
+    },
+    "PiDesktopViewer.zip": {
+      "sha256": "12211cc8aa4647eab0e0b6f2e9d90a833ebaf21ce56425764a0fee3b399eca04",
+      "bytes": 35257803
+    }
+  },
+  "imageDigest": "sha256:46b3ead04be8e44ffbc644862ef06a46f1ff29b2784f2b434e78d0116624a99d",
+  "update": {
+    "base64": "ewogICJzY2hlbWFWZXJzaW9uIjogMSwKICAicGF5bG9hZCI6ICJleUp6WTJobGJXRldaWEp6YVc5dUlqb3hMQ0oyWlhKemFXOXVJam9pTUM0NExqY2lMQ0p3ZFdKc2FYTm9aV1JCZENJNklqSXdNall0TVRFdE1UWlVNRGM2TXpjNk1qSXVNelV3V2lJc0ltbHRZV2RsUkdsblpYTjBJam9pYzJoaE1qVTJPalEyWWpObFlXUXdOR0psT0dVME5HWm1ZbU0yTkRRNE5qSmxaakEyWVRRMlpqRm1aakk1WWpJM09EUm1NbUkwTXpSbE56aGtNREV4TmpZeU5HRTVPV1FpTENKbGVHVlZjbXdpT2lKb2RIUndjem92TDJkcGRHaDFZaTVqYjIwdmMzUjFaR2x2WkhKbFlXMXpkVzF0YjI0dmNHa3RaR1Z6YTNSdmNDMTJhV1YzWlhJdGNtVnNaV0Z6WlhNdmNtVnNaV0Z6WlhNdlpHOTNibXh2WVdRdmRqQXVPQzQzTDFCcFJHVnphM1J2Y0ZacFpYZGxjaTVsZUdVaUxDSmxlR1ZUYUdFeU5UWWlPaUkxWmpNM056VXlObVZsTmpCalkyVTNOakZoWVRNMk5qQmtOREF6WVRneE5EVmpNalZpWlRSalpqWmxOV00zTVdZeU1EWmxabVkzTkdFM09XWXlNR00wSWl3aVpYaGxRbmwwWlhNaU9qTTFOVGM1TXpreWZRIiwKICAic2lnbmF0dXJlIjogIkxLbjVzeERWd3FocFZhVE9NbzU2NlJjdzMxZ2RsMXdwR3NoQU40RGprZUtuSkNwUGdRckV0LXI3NTF5LU9sclVyenJ3YXB4NnVjWHppc19tUUVDRW53Igp9Cg==",
+    "sha256": "5ac559624c66f114792cd4c97e6aea505dadac39824190d0e94d80b803bdc902",
+    "bytes": 661
+  },
+  "publisherTrustSha256": "3ea17fb017c0c0a54dc644431be64fa8291aff6717b38a0dd3ee877625f3500c",
+  "notes": {
+    "text": "Pi Desktop Viewer 0.8.7 fixes reconnection when a previous invalid access response remained stored in the SoloHost app, even though the Windows helper still showed an access record.\n\nRecovery requires a fresh, signed online check for the same PC and entitlement. Revoked access, invalid signatures and service outages remain blocked. PC identity, registered access and approved phones are preserved.\n\nUse “Check for updates” in the Windows helper to update both the helper and the installed SoloHost app. Do not delete app data or register a replacement code as a troubleshooting step.\n\nValidation: 545 regression checks and 7 isolated actual-server API checks in the rebuilt Linux image passed. The Windows package was built and checked from the same frozen candidate. Results on an individual affected PC still require that PC to update and reconnect.\n\nPi Desktop Viewer 0.8.7은 Windows 도우미에 이용권 기록이 있어도 SoloHost 앱에 남은 이전 응답 오류 때문에 재연결이 차단되는 문제를 수정합니다.\n\n같은 PC와 이용권을 서버의 새 서명 응답으로 확인한 경우에만 복구합니다. 이용권 회수·서명 오류·서버 장애 때에는 차단을 유지하며 PC 식별 정보와 등록 정보, 승인한 휴대폰을 보존합니다.\n\nWindows 도우미의 ‘업데이트 확인’에서 도우미와 설치된 SoloHost 앱을 함께 업데이트하세요. 문제 해결을 위해 앱 데이터를 지우거나 코드를 재발급하지 마세요.\n\n전체 회귀 검사545건과 새 Linux 이미지의 실제 서버 API 검사7건을 통과했습니다. 개별 문제 PC의 사용 성공은 해당 PC에서 업데이트 후 재연결해 확인해야 합니다.\n",
+    "sha256": "3e84bf01f92f4adcedd5bdf17a685b23eff4d0d590aab86cea0743a2d4c6a202"
+  }
+}
